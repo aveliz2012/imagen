@@ -45,81 +45,8 @@ canvas2_global = None
 pix_global = True; 
 HayRecorte = 0; 
 
-ventana1 = tk.Tk() 
-ventana1.geometry("1200x700") 
-ventana1.title("Herramienta de reconocimiento de imágenes")  
-ventana1.resizable(0,0)  
- 
-ventana1.config(bg="#0B121D")  
-ventana1.config(cursor="hand2")  
-ventana1.config(relief="sunken")  
-ventana1.config(bd=8)  
- 
-labeltitulo= Label(ventana1, text="Herramienta de reconocimiento de imágenes", padx=15,pady=15) 
-labeltitulo.config(fg="white", bg="#0B121D",font=("Arial",18)) 
-labeltitulo.pack(anchor=N) 
-cuaderno1 = ttk.Notebook(ventana1,width=800, height=600) 
-cuaderno1.place(x=200,y=50)
-pagina1 = ttk.Frame(cuaderno1) 
-cuaderno1.add(pagina1, text="Inicio", padding=10) 
- 
-label1 = ttk.Label(pagina1, text="Bienvenido \nInserte una imagen para tratar con ella.\n") 
-label1.grid(column=0, row=0) 
-boton1_abrir = ttk.Button(pagina1, text="Abrir imagen",command=choose)  
-boton1_abrir.grid(column=0, row=1) 
- 
-canvas = tk.Canvas(pagina1) 
-canvas.config(cursor="arrow") 
- 
-canvas.bind('<Button-1>', get_mouse_posn) 
-canvas.bind('<B1-Motion>', update_sel_rect) 
 
-label19 = Label(pagina1, text=None) 
-label19.grid(column=0,row=4) 
- 
-boton2_limpiar = ttk.Button(pagina1, text="Limpiar",command=limpiar)  
-boton2_limpiar.grid(column=0,row=3) 
- 
-pagina2 = ttk.Frame(cuaderno1) 
-cuaderno1.add(pagina2, text="Tratamiento de la imagen",padding=10,state="disabled") 
-comboLabel  =  ttk.Combobox(pagina2,  values=[  "FFT",  "Escala  de  grises",  "Filtrado  gaussiano", 
-"Histograma", "Filtrado de Mediana", "Contorno imagen"]) 
-comboLabel.current(1) 
-comboLabel.bind("<<ComboboxSelected>>", imprime_label) 
-comboLabel.place(x="20",y="20") 
-
-label2 = ttk.Label(pagina2, text=None) 
-label2.place(x="20", y="0") 
-label20 = Label(pagina2, image=None) 
-label20.place(x="320",y="20") 
-label21 = ttk.Label(pagina2,text=None) 
-label21.place(x="20", y="100") 
-boton3_guardar = ttk.Button(pagina2, text="Guardar",command=save_file,state="disabled" )  
-boton3_guardar.place(x="20", y="45") 
-boton5_histograma = ttk.Button(pagina2, text="Imprimir Histograma", command=histograma) 
-
-boton5_histograma.place(x="20", y="70") 
-label_histograma_titulo = Label(pagina2, text=None) 
-label_histograma_titulo.place(x="20", y="175") 
-label_histograma = Label(pagina2, image=None) 
-label_histograma.place(x="20", y="200")
-
-pagina3 = ttk.Frame(cuaderno1) 
-cuaderno1.add(pagina3, text="Contour / 3D",padding=10,state="disabled" ) 
-label14 = ttk.Label(pagina3, text=None) 
-label14.place(x="175", y="0") 
-label15= ttk.Label(pagina3,image=None) 
-label15.place(x="0", y="60") 
-label16 = ttk.Label(pagina3, text=None) 
-label16.place(x="15", y="550") 
-label17_titulo = ttk.Label(pagina3, text=None) 
-label17_titulo.place(x="550", y="0") 
-label17 = ttk.Label(pagina3, image=None) 
-label17.place(x="370", y="20") 
-boton4_contour = ttk.Button(pagina3, text="Visualizacion 3D", command = contour_y_3d) 
-boton4_contour.place(x="650", y="400")
-
-ventana1.mainloop() 
+#Modulos
 
 def get_mouse_posn(event): 
     global topy, topx 
@@ -385,8 +312,8 @@ def ReconocimientoImagen():
     fig.savefig('plot.png', facecolor="#F0F0F0") 
     surface1 = cv2.imread('plot.png', 1)   
     hsv_global2 = cv2.cvtColor(surface1, cv2.COLOR_BGR2HSV) 
-    surface1_cv2 = cv2.cvtColor(surface1, cv2.COLOR_BGR2RGB 
-    mask_global2 = cv2.inRange(hsv_global2, lw_range1, up_range1)   
+    surface1_cv2 = cv2.cvtColor(surface1, cv2.COLOR_BGR2RGB) 
+    mask_global2 = cv2.inRange(hsv_global2, lw_range1, up_range1)               
     res_global2 = cv2.bitwise_and(surface1_cv2, surface1_cv2, mask=mask_global2)  
     image_surface = Image.fromarray(res_global2).resize((350, 350), Image.ANTIALIAS) 
     img_surface = ImageTk.PhotoImage(image_surface)   
@@ -400,7 +327,7 @@ def ReconocimientoImagen():
     plt.close(fig) 
     
                                 
-def choose()
+def choose():
     global B_global, B1_global, B2_global 
     global path_global 
     global cropped_img_global 
@@ -431,9 +358,10 @@ def choose()
             res_global= cv2.bitwise_and(image_original_global, image_original_global, mask=mask_global) 
             alto_global = data[0] 
             ancho_global = data[1] 
-            while ancho_global > 450 or alto_global > 550: 
-            	alto_global = alto_global * 0.9 
+            while ancho_global > 450 or alto_global > 550:
+                alto_global = alto_global * 0.9 
                 ancho_global = ancho_global * 0.9
+
                                 
             alto_adaptado_global = alto_global 
             ancho_adaptado_global = ancho_global 
@@ -446,14 +374,15 @@ def choose()
             canvas.place(x="320",y="20") 
             canvas.config(width=int(ancho_global), height=int(alto_global)) 
             rect_id_global = canvas.create_rectangle(topx, topy, topx, topy,dash=(2, 2), fill='', outline='white') 
-	        label19.configure(text="Informacion Imagen Original\nAlto: {} píxeles\nAncho: {} píxeles\nCanales: {} píxeles".format(data[0], data[1], data[2])) 
-	        B_global = Button(pagina1, text="Recortar Imagen", command=Recorta) 
-	        B_global.place(x=0,y=200) 
-	        B1_global = Button(pagina1, text="Sin recortar", command= NoRecorta,state="disabled") 
-	        B1_global.place(x=100,y=200) 
-            B2_global = Button(pagina1, text="Comenzar", bg = "#F0F0F0" , command=ReconocimientoImagen) 
-            B2_global.place(x=220, y=200) 
-            rect_id_global = canvas.create_rectangle(topx, topy, topx, topy, dash=(2, 2), fill='', outline='white') 
+            label19.configure(text="Informacion Imagen Original\nAlto: {} píxeles\nAncho: {} píxeles\nCanales: {} píxeles".format(data[0], data[1], data[2])) 
+            B_global = Button(pagina1, text="Recortar Imagen", command=Recorta)
+            B_global.place(x=0,y=200)
+            B1_global = Button(pagina1, text="Sin recortar", command= NoRecorta,state="disabled")
+            B1_global.place(x=100,y=200)
+            B2_global = Button(pagina1, text="Comenzar", bg = "#F0F0F0" , command=ReconocimientoImagen)
+            B2_global.place(x=220, y=200)
+            rect_id_global = canvas.create_rectangle(topx, topy, topx, topy, dash=(2, 2), fill='', outline='white')
+
     except AttributeError: 
         print("Error tipo NoneType")
                                
@@ -469,7 +398,7 @@ def save_file():
         gray_img1 = Image.fromarray(res1_global) 
         file = filedialog.asksaveasfilename(filetypes=[("PNG",".png")],defaultextension=".png") 
         if comboLabel.get() == "FFT": 
-        	matplotlib.image.imsave(str(file), magnitudFFT_global) 
+            matplotlib.image.imsave(str(file), magnitudFFT_global) 
  
         elif comboLabel.get() == "Escala de grises": 
             gray_img1.save(str(file)) 
@@ -517,10 +446,11 @@ def imprime_label(event):
         label21.configure(text="Número de Contour: " + str(len(cnts_global))) 
  
     elif comboLabel.get() == "Histograma":
-                               
-     label20.configure(image=imagen_ecualizada_global) 
-        label20.image = imagen_ecualizada_global 
-        label2.configure(text="Imagen histograma ecualizada") 
+                      
+     label20.configure(image=imagen_ecualizada_global)
+     label20.image = imagen_ecualizada_global
+     label2.configure(text="Imagen histograma ecualizada")
+     
  
     elif comboLabel.get() == "Filtrado de Mediana": 
         label20.configure(image=median_img_tk_global) 
@@ -531,3 +461,89 @@ def imprime_label(event):
         label20.configure(image=blur_img_tk_global) 
         label20.image = blur_img_tk_global 
         label2.configure(text="Imagen filtrada gaussiana")
+
+
+#Fin de los Modulos
+
+
+
+
+
+
+ventana1 = tk.Tk() 
+ventana1.geometry("1200x700") 
+ventana1.title("Herramienta de reconocimiento de imágenes")  
+ventana1.resizable(0,0)  
+ 
+ventana1.config(bg="#0B121D")  
+ventana1.config(cursor="hand2")  
+ventana1.config(relief="sunken")  
+ventana1.config(bd=8)  
+ 
+labeltitulo= Label(ventana1, text="Herramienta de reconocimiento de imágenes", padx=15,pady=15) 
+labeltitulo.config(fg="white", bg="#0B121D",font=("Arial",18)) 
+labeltitulo.pack(anchor=N) 
+cuaderno1 = ttk.Notebook(ventana1,width=800, height=600) 
+cuaderno1.place(x=200,y=50)
+pagina1 = ttk.Frame(cuaderno1) 
+cuaderno1.add(pagina1, text="Inicio", padding=10) 
+ 
+label1 = ttk.Label(pagina1, text="Bienvenido \nInserte una imagen para tratar con ella.\n") 
+label1.grid(column=0, row=0) 
+boton1_abrir = ttk.Button(pagina1, text="Abrir imagen",command=choose)  
+boton1_abrir.grid(column=0, row=1) 
+ 
+canvas = tk.Canvas(pagina1) 
+canvas.config(cursor="arrow") 
+ 
+canvas.bind('<Button-1>', get_mouse_posn) 
+canvas.bind('<B1-Motion>', update_sel_rect) 
+
+label19 = Label(pagina1, text=None) 
+label19.grid(column=0,row=4) 
+ 
+boton2_limpiar = ttk.Button(pagina1, text="Limpiar",command=limpiar)  
+boton2_limpiar.grid(column=0,row=3) 
+ 
+pagina2 = ttk.Frame(cuaderno1) 
+cuaderno1.add(pagina2, text="Tratamiento de la imagen",padding=10,state="disabled") 
+comboLabel  =  ttk.Combobox(pagina2,  values=[  "FFT",  "Escala  de  grises",  "Filtrado  gaussiano", 
+"Histograma", "Filtrado de Mediana", "Contorno imagen"]) 
+comboLabel.current(1) 
+comboLabel.bind("<<ComboboxSelected>>", imprime_label) 
+comboLabel.place(x="20",y="20") 
+
+label2 = ttk.Label(pagina2, text=None) 
+label2.place(x="20", y="0") 
+label20 = Label(pagina2, image=None) 
+label20.place(x="320",y="20") 
+label21 = ttk.Label(pagina2,text=None) 
+label21.place(x="20", y="100") 
+boton3_guardar = ttk.Button(pagina2, text="Guardar",command=save_file,state="disabled" )  
+boton3_guardar.place(x="20", y="45") 
+boton5_histograma = ttk.Button(pagina2, text="Imprimir Histograma", command=histograma) 
+
+boton5_histograma.place(x="20", y="70") 
+label_histograma_titulo = Label(pagina2, text=None) 
+label_histograma_titulo.place(x="20", y="175") 
+label_histograma = Label(pagina2, image=None) 
+label_histograma.place(x="20", y="200")
+
+pagina3 = ttk.Frame(cuaderno1) 
+cuaderno1.add(pagina3, text="Contour / 3D",padding=10,state="disabled" ) 
+label14 = ttk.Label(pagina3, text=None) 
+label14.place(x="175", y="0") 
+label15= ttk.Label(pagina3,image=None) 
+label15.place(x="0", y="60") 
+label16 = ttk.Label(pagina3, text=None) 
+label16.place(x="15", y="550") 
+label17_titulo = ttk.Label(pagina3, text=None) 
+label17_titulo.place(x="550", y="0") 
+label17 = ttk.Label(pagina3, image=None) 
+label17.place(x="370", y="20") 
+boton4_contour = ttk.Button(pagina3, text="Visualizacion 3D", command = contour_y_3d) 
+boton4_contour.place(x="650", y="400")
+
+ventana1.mainloop() 
+
+
