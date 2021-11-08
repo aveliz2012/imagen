@@ -328,6 +328,7 @@ def ReconocimientoImagen():
     
                                 
 def choose():
+
     global B_global, B1_global, B2_global 
     global path_global 
     global cropped_img_global 
@@ -346,42 +347,44 @@ def choose():
     global canvas2_global 
     try: 
        if HayRecorte == 1: 
-            canvas2_global.destroy() 
-            path_global = filedialog.askopenfilename()  
-            image_1_global = cv2.imread(path_global, 1) 
-            data = image_1_global.shape  
-            image_original_global = cv2.cvtColor(image_1_global, cv2.COLOR_BGR2RGB)  
-            hsv_global = cv2.cvtColor(image_1_global, cv2.COLOR_BGR2HSV) 
-            lw_range = np.array([0, 0, 0])  
-            up_range = np.array([255, 255, 255])  
-            mask_global = cv2.inRange(hsv_global, lw_range, up_range) 
-            res_global= cv2.bitwise_and(image_original_global, image_original_global, mask=mask_global) 
-            alto_global = data[0] 
-            ancho_global = data[1] 
-            while ancho_global > 450 or alto_global > 550:
-                alto_global = alto_global * 0.9 
-                ancho_global = ancho_global * 0.9
+            canvas2_global.destroy()
 
-                                
-            alto_adaptado_global = alto_global 
-            ancho_adaptado_global = ancho_global 
-            image_original_global = Image.fromarray(res_global).resize((int(ancho_global),int(alto_global)),    Image.ANTIALIAS) 
-            pix_global = np.array(image_original_global) 
-            imagen_global=image_original_global; 
-            img = ImageTk.PhotoImage(image_original_global)  
-            canvas.img = img   
-            canvas.create_image(0, 0, image=img, anchor=tk.NW) 
-            canvas.place(x="320",y="20") 
-            canvas.config(width=int(ancho_global), height=int(alto_global)) 
-            rect_id_global = canvas.create_rectangle(topx, topy, topx, topy,dash=(2, 2), fill='', outline='white') 
-            label19.configure(text="Informacion Imagen Original\nAlto: {} píxeles\nAncho: {} píxeles\nCanales: {} píxeles".format(data[0], data[1], data[2])) 
-            B_global = Button(pagina1, text="Recortar Imagen", command=Recorta)
-            B_global.place(x=0,y=200)
-            B1_global = Button(pagina1, text="Sin recortar", command= NoRecorta,state="disabled")
-            B1_global.place(x=100,y=200)
-            B2_global = Button(pagina1, text="Comenzar", bg = "#F0F0F0" , command=ReconocimientoImagen)
-            B2_global.place(x=220, y=200)
-            rect_id_global = canvas.create_rectangle(topx, topy, topx, topy, dash=(2, 2), fill='', outline='white')
+       path_global = filedialog.askopenfilename()  
+       image_1_global = cv2.imread(path_global, 1) 
+       data = image_1_global.shape  
+       image_original_global = cv2.cvtColor(image_1_global, cv2.COLOR_BGR2RGB)  
+       hsv_global = cv2.cvtColor(image_1_global, cv2.COLOR_BGR2HSV) 
+       lw_range = np.array([0, 0, 0])  
+       up_range = np.array([255, 255, 255])  
+       mask_global = cv2.inRange(hsv_global, lw_range, up_range) 
+       res_global= cv2.bitwise_and(image_original_global, image_original_global, mask=mask_global) 
+       alto_global = data[0] 
+       ancho_global = data[1] 
+       while ancho_global > 450 or alto_global > 550:
+           alto_global = alto_global * 0.9 
+           ancho_global = ancho_global * 0.9
+
+                            
+       alto_adaptado_global = alto_global 
+       ancho_adaptado_global = ancho_global 
+       image_original_global = Image.fromarray(res_global).resize((int(ancho_global),int(alto_global)),    Image.ANTIALIAS) 
+       pix_global = np.array(image_original_global) 
+       imagen_global=image_original_global; 
+       img = ImageTk.PhotoImage(image_original_global)  
+       canvas.img = img   
+       canvas.create_image(0, 0, image=img, anchor=tk.NW) 
+       canvas.place(x="320",y="20") 
+       canvas.config(width=int(ancho_global), height=int(alto_global)) 
+       rect_id_global = canvas.create_rectangle(topx, topy, topx, topy,dash=(2, 2), fill='', outline='white') 
+       label19.configure(text="Informacion Imagen Original\nAlto: {} píxeles\nAncho: {} píxeles\nCanales: {} píxeles".format(data[0], data[1], data[2])) 
+       B_global = Button(pagina1, text="Recortar Imagen", command=Recorta)
+       B_global.place(x=0,y=200)
+       B1_global = Button(pagina1, text="Sin recortar", command= NoRecorta,state="disabled")
+       B1_global.place(x=100,y=200)
+       B2_global = Button(pagina1, text="Comenzar", bg = "#F0F0F0" , command=ReconocimientoImagen)
+       B2_global.place(x=220, y=200)
+       rect_id_global = canvas.create_rectangle(topx, topy, topx, topy, dash=(2, 2), fill='', outline='white')
+            
 
     except AttributeError: 
         print("Error tipo NoneType")
